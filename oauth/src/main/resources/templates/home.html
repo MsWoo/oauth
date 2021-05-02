@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>home</title>
+</head> 
+<body>
+  <div sec:authorize="isAuthenticated()">
+	<form th:action="@{/logout}" method="post">
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		Welcome <b><span sec:authentication="name">Username</span></b>
+		&nbsp;
+		<input type="submit" value="Logout" />
+	</form>
+		
+	</br>
+		
+  </div>
+  
+  <div>
+    <button sec:authorize="!isAuthenticated()" onclick="location.href='/login'">Login</button>
+    <button sec:authorize="!isAuthenticated()" onclick="location.href='/signUp'">signUp</button>
+    <button sec:authorize="isAuthenticated()" onclick="location.href='/MyPage'">MyPage</button>
+    <button sec:authorize="isAuthenticated()" onclick="location.href='/list'">List</button>
+  </div>
+</body>
+</html>
