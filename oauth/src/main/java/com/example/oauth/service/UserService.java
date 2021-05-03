@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UserService implements UserDetailsService {
+public class UserService{
 	private final UserRepository repo;
 	
 	//구글로그인인 경우에 DB Entity의 나머지 빈 값들을 채워준다.
@@ -46,18 +46,7 @@ public class UserService implements UserDetailsService {
 			newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 			
 			repo.saveUser(newUser);
-			
-			System.out.println("Created new user: " + username);
 		}
-	}
-
-	
-	//loadUserByUsername 메소드를 오버라이드해야해서 메소드명은 ByUsername이지만 
-	//실제 로그인 인증에서는 email로 비교한다.
-	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = repo.findUserByEmail(email);
-		return new MyUserDetails(user);
 	}
 	
 	@Transactional

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.oauth.auth.MyUserDetails;
+import com.example.oauth.entity.CustomOAuth2User;
 import com.example.oauth.entity.User;
 import com.example.oauth.service.UserService;
 
@@ -50,11 +51,23 @@ public class OController {
     
     @RequestMapping("/MyPage")
 	private String mypage(Model model, Authentication authentication) {
-    	MyUserDetails userDetail = (MyUserDetails)authentication.getPrincipal();  //userDetail 객체를 가져옴
-        model.addAttribute("email", userDetail.getUsername());      //유저 이메일
-        model.addAttribute("pw", userDetail.getPassword());
-        model.addAttribute("name", userDetail.getName());
-        model.addAttribute("role", userDetail.getRole());
+    	
+    	//MyUserDetail
+    	if(authentication.getPrincipal() instanceof MyUserDetails) {
+    		MyUserDetails userDetail = (MyUserDetails) authentication.getPrincipal();
+            model.addAttribute("email", userDetail.getEmail()); 
+            model.addAttribute("name", userDetail.getUsername());
+            model.addAttribute("role", userDetail.getRole());
+    	}
+    	//CustomOAuth2User
+    	else {
+    		CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+        	model.addAttribute("email", oauthUser.getEmail());
+        	model.addAttribute("name", oauthUser.getName());
+        	model.addAttribute("role", oauthUser.getRole());
+    	}
+    	
+    	
 		return "mypage";
 	}
 

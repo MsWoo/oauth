@@ -17,12 +17,14 @@ public class MyUserDetails implements UserDetails {
 
 	private User user;
 	
+	private String email;
 	private String name;
 	private String role;
 	private Provider provider;
 	
 	public MyUserDetails(User user) {
 		this.user = user;
+		this.email = user.getEmail();
 		this.name = user.getUsername();
 		this.role = user.getRole();
 		this.provider = user.getProvider();
@@ -45,11 +47,9 @@ public class MyUserDetails implements UserDetails {
 		return user.getPassword();
 	}
 
-	//인증문제때문에 getUsername이지만 getEmail로 해놨음.
 	@Override
 	public String getUsername() {
-		return user.getEmail();
-//		return user.getUsername();
+		return user.getUsername();
 	}
 
 	@Override
@@ -72,8 +72,8 @@ public class MyUserDetails implements UserDetails {
 		return user.isEnabled();
 	}
 	
-	public String getName() {
-		return name;
+	public String getEmail() {
+		return email;
 	}
 	public String getRole() {
 		return role;
