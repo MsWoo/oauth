@@ -67,7 +67,7 @@ public class UserService {
 		repo.deleteUser(id);
 	}
 	
-	public void giveAdm(Long id) {
+	public void giveAdmin(Long id) {
 		repo.giveAdmin(id);
 	}
 

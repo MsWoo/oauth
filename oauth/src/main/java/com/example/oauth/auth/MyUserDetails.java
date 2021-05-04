@@ -22,38 +22,21 @@ public class MyUserDetails implements UserDetails {
 	
 	private String email;
 	private String name;
-//	private String role;
 	
 	public MyUserDetails(User user) {
 		this.user = user;
 		this.email = user.getEmail();
 		this.name = user.getUsername();
-//		this.role = user.getRole();
 	}
-	
-//	List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-//	@Override
-//	public Collection<? extends GrantedAuthority> getAuthorities() {
-//		Set<Role> roles = user.getRoles();
-//		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//		authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
-//		
-//		return authorities;
-//	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//		authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
-
 		String roles = user.getRoles().toString();
 		String[] authStrings = roles.substring(1, roles.length()-1).split(", ");
 		for(String authString : authStrings) {
-//			System.out.println(authString);
 			authorities.add(new SimpleGrantedAuthority("ROLE_"+authString));
 		}
-		
 		return authorities;
 	}
 
@@ -90,8 +73,5 @@ public class MyUserDetails implements UserDetails {
 	public String getEmail() {
 		return email;
 	}
-//	public String getRole() {
-//		return role;
-//	}
 
 }

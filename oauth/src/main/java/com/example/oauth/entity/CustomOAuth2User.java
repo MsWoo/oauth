@@ -17,9 +17,6 @@ public class CustomOAuth2User implements OAuth2User {
 
 	private OAuth2User oauth2User;
 	
-//	@Autowired
-//	private final UserService service;
-	
 	public CustomOAuth2User(OAuth2User oauth2User) {
 		this.oauth2User = oauth2User;
 	}
@@ -60,7 +57,4 @@ public class CustomOAuth2User implements OAuth2User {
 		return oauth2User.<String>getAttribute("email");		
 	}
 
-//	public String getRole() {
-//		return "USER";
-//	}
 }

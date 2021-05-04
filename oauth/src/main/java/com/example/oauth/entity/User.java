@@ -39,19 +39,12 @@ public class User {
 
 	private boolean fromSocial;
 
-//	private String role; // 권한
-
-//	@Enumerated(EnumType.STRING)
-//	private Provider provider;
-
 //	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 //	private Set<Role> roles = new HashSet<>();
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<UserRole> roles = new HashSet<>();
-
-//	private Set<UserRole> roleSet = new HashSet<>();
 
 	public void addUserRole(UserRole userRole) {
 		roles.add(userRole);

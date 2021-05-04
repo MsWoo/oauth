@@ -50,7 +50,6 @@ public class OController {
 
     @PostMapping("/signup")
     public String signUp(User user) {
-
     	user.addUserRole(UserRole.USER);
 //		user.addUserRole(UserRole.ADMIN);
         user.setEnabled(true);
@@ -67,14 +66,12 @@ public class OController {
     		MyUserDetails userDetail = (MyUserDetails) authentication.getPrincipal();
             model.addAttribute("email", userDetail.getEmail()); 
             model.addAttribute("name", userDetail.getUsername());
-//            model.addAttribute("role", userDetail.getRole());
     	}
     	//CustomOAuth2User
     	else {
     		CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
         	model.addAttribute("email", oauthUser.getEmail());
         	model.addAttribute("name", oauthUser.getName());
-//        	model.addAttribute("role", oauthUser.getRole());
     	}
     	
 		return "mypage";
@@ -95,15 +92,9 @@ public class OController {
 	}
     
     @RequestMapping("/update/{id}")
-//    @Transactional
 	public String updateUser(@PathVariable(name = "id") Long id) {
     	User user = userRepository.findUserById(id);
-    	
-//    	System.out.println(id);
-//    	user.addUserRole(UserRole.ADMIN);
-    	service.giveAdm(id);
-//    	userRepository.saveUser(user);
-//    	new MyUserDetails(user);
+    	service.giveAdmin(id);
 		return "redirect:/list";	
 	}
 }
