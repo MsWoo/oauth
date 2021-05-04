@@ -9,8 +9,7 @@
 				<th>ID</th>
 				<th>Email</th>
 				<th>Name</th>
-				<th>Provider</th>
-				<th>Role</th>
+				<th>FromSocial</th>
 				
 				<th>Actions</th>				
 				
@@ -21,10 +20,10 @@
 				<td th:text="${data.id}">ID</td>
 				<td th:text="${data.email}">Email</td>
 				<td th:text="${data.username}">Name</td>
-				<td th:text="${data.provider}">Provider</td>
-				<td th:text="${data.role}">Role</td>
+				<td th:text="${data.fromSocial}">FromSocial</td>
 				<td>		
 					&nbsp;&nbsp;&nbsp;&nbsp;
+					<a th:href="@{'/update/' + ${data.id}}">권한</a>
 					<a th:href="@{'/delete/' + ${data.id}}">Delete</a>
 				</td>
 			</tr>

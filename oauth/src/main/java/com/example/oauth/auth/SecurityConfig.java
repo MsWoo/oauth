@@ -37,14 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
+			.antMatchers("/", "/login", "/oauth/**", "/home", "/signup").permitAll()
 			.antMatchers("/mypage").hasRole("USER")
-			.antMatchers("/", "/login", "/oauth/**", "/home", "/signUp").permitAll()
+			.antMatchers("/list").hasRole("ADMIN")
 			.anyRequest().authenticated()
 			.and()
 			.formLogin()
 				.loginPage("/login")
 				.defaultSuccessUrl("/")
-				.permitAll()
 			.and()
 			.oauth2Login()
 				.loginPage("/login")
@@ -55,8 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					@Override
 					public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 							Authentication authentication) throws IOException, ServletException {
-						System.out.println("AuthenticationSuccessHandler invoked");
-						System.out.println("Authentication name: " + authentication.getName());
+//						System.out.println("AuthenticationSuccessHandler invoked");
+//						System.out.println("Authentication name: " + authentication.getName());
 						CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
 						
 						userService.processOAuthPostLogin(oauthUser);

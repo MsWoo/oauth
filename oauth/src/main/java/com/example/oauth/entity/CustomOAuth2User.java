@@ -33,7 +33,7 @@ public class CustomOAuth2User implements OAuth2User {
 		return oauth2User.<String>getAttribute("email");		
 	}
 
-	public String getRole() {
-		return "USER";
-	}
+//	public String getRole() {
+//		return "USER";
+//	}
 }

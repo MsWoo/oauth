@@ -28,6 +28,12 @@ public class UserRepository {
 			.setParameter(1, username);
 		return query.getSingleResult();
 	}
+	
+	public User findUserById(Long id){
+		TypedQuery<User> query = em.createQuery("select m from User as m where m.id = ?1", User.class)
+			.setParameter(1, id);
+		return query.getSingleResult();
+	}
 
 
 	public User findUserByEmail(String email){

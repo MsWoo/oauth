@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
+import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.oauth.entity.Provider;
-import com.example.oauth.entity.Role;
 import com.example.oauth.entity.User;
+import com.example.oauth.entity.UserRole;
 
 public class MyUserDetails implements UserDetails {
 
@@ -19,24 +22,36 @@ public class MyUserDetails implements UserDetails {
 	
 	private String email;
 	private String name;
-	private String role;
-	private Provider provider;
+//	private String role;
 	
 	public MyUserDetails(User user) {
 		this.user = user;
 		this.email = user.getEmail();
 		this.name = user.getUsername();
-		this.role = user.getRole();
-		this.provider = user.getProvider();
+//		this.role = user.getRole();
 	}
+	
+//	List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+//	@Override
+//	public Collection<? extends GrantedAuthority> getAuthorities() {
+//		Set<Role> roles = user.getRoles();
+//		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//		authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+//		
+//		return authorities;
+//	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Set<Role> roles = user.getRoles();
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		
-		for (Role role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role.getName()));
+//		authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+
+		String roles = user.getRoles().toString();
+		String[] authStrings = roles.substring(1, roles.length()-1).split(", ");
+		for(String authString : authStrings) {
+//			System.out.println(authString);
+			authorities.add(new SimpleGrantedAuthority("ROLE_"+authString));
 		}
 		
 		return authorities;
@@ -75,10 +90,8 @@ public class MyUserDetails implements UserDetails {
 	public String getEmail() {
 		return email;
 	}
-	public String getRole() {
-		return role;
-	}
-	public Provider getProvider() {
-		return provider;
-	}
+//	public String getRole() {
+//		return role;
+//	}
+
 }

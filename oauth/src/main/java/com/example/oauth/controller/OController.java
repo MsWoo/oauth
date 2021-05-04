@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.oauth.auth.MyUserDetails;
 import com.example.oauth.entity.CustomOAuth2User;
 import com.example.oauth.entity.User;
+import com.example.oauth.entity.UserRole;
+import com.example.oauth.repository.UserRepository;
 import com.example.oauth.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +29,9 @@ import lombok.RequiredArgsConstructor;
 public class OController {
 	
 	private final UserService service;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	@RequestMapping("/")
 	  public String home() {
@@ -36,20 +43,23 @@ public class OController {
 	    return "login";
 	  }
 
-    @GetMapping("/signUp")
+    @GetMapping("/signup")
     public String signUpForm() {
         return "signup";
     }
 
-    @PostMapping("/signUp")
+    @PostMapping("/signup")
     public String signUp(User user) {
-        user.setRole("USER");
+
+    	user.addUserRole(UserRole.USER);
+		user.addUserRole(UserRole.ADMIN);
         user.setEnabled(true);
+        user.setFromSocial(false);
         service.joinUser(user);
         return "redirect:/login";
     }
     
-    @RequestMapping("/MyPage")
+    @RequestMapping("/mypage")
 	private String mypage(Model model, Authentication authentication) {
     	
     	//MyUserDetail
@@ -57,16 +67,15 @@ public class OController {
     		MyUserDetails userDetail = (MyUserDetails) authentication.getPrincipal();
             model.addAttribute("email", userDetail.getEmail()); 
             model.addAttribute("name", userDetail.getUsername());
-            model.addAttribute("role", userDetail.getRole());
+//            model.addAttribute("role", userDetail.getRole());
     	}
     	//CustomOAuth2User
     	else {
     		CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
         	model.addAttribute("email", oauthUser.getEmail());
         	model.addAttribute("name", oauthUser.getName());
-        	model.addAttribute("role", oauthUser.getRole());
+//        	model.addAttribute("role", oauthUser.getRole());
     	}
-    	
     	
 		return "mypage";
 	}
@@ -80,9 +89,21 @@ public class OController {
 	}
     
     @RequestMapping("/delete/{id}")
-	public String deleteProduct(@PathVariable(name = "id") Long id) {
+	public String deleteUser(@PathVariable(name = "id") Long id) {
 		service.delete(id);
 		return "redirect:/list";
 	}
     
+    @RequestMapping("/update/{id}")
+//    @Transactional
+	public String updateUser(@PathVariable(name = "id") Long id) {
+    	User user = userRepository.findUserById(id);
+    	
+//    	System.out.println(id);
+    	user.addUserRole(UserRole.ADMIN);
+    	
+//    	userRepository.saveUser(user);
+//    	new MyUserDetails(user);
+		return "redirect:/list";	
+	}
 }

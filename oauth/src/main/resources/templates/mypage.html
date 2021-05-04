@@ -7,7 +7,9 @@
 		
 Email : <p th:text="${email}"></p>
 Name : <p th:text="${name}"></p>
-Role : <p th:text="${role}"></p>
+Role : 
+<div sec:authorize="hasRole('USER')">USER</div>
+<div sec:authorize="hasRole('ADMIN')">ADMIN</div>
 	
 	<form th:action="@{/logout}" method="post">
 		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

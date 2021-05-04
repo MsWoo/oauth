@@ -19,8 +19,8 @@
   
   <div>
     <button sec:authorize="!isAuthenticated()" onclick="location.href='/login'">Login</button>
-    <button sec:authorize="!isAuthenticated()" onclick="location.href='/signUp'">signUp</button>
-    <button sec:authorize="isAuthenticated()" onclick="location.href='/MyPage'">MyPage</button>
+    <button sec:authorize="!isAuthenticated()" onclick="location.href='/signup'">signUp</button>
+    <button sec:authorize="isAuthenticated()" onclick="location.href='/mypage'">MyPage</button>
     <button sec:authorize="isAuthenticated()" onclick="location.href='/list'">List</button>
   </div>
 </body>
