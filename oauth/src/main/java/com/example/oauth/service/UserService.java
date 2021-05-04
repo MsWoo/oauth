@@ -57,9 +57,18 @@ public class UserService {
 	public List<User> findAll() {
 		return repo.findAllUser();
 	}
+	
+	public User findUserByEmail(String Email) {
+		return repo.findUserByEmail(Email);
+	}
 
 	public void delete(Long id) {
+		repo.deleteUserRole(id);
 		repo.deleteUser(id);
+	}
+	
+	public void giveAdm(Long id) {
+		repo.giveAdmin(id);
 	}
 
 }

@@ -57,4 +57,16 @@ public class UserRepository {
 		query.executeUpdate();
 	}
 	
+	public void deleteUserRole(Long id) {
+		Query query = em.createNativeQuery("DELETE FROM user_roles WHERE user_user_id = ?1")
+			.setParameter(1, id);
+		query.executeUpdate();
+	}
+	
+	public void giveAdmin(Long id) {
+		Query query = em.createNativeQuery("INSERT INTO user_roles (user_user_id, roles) VALUES (?1, 1)")
+		.setParameter(1, id);
+		query.executeUpdate();
+	}
+	
 }

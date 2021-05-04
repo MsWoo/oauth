@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head><title>List</title></head>
+<head th:replace="fragments/common :: html-head">
+	<title>List</title>
+</head>
 <body>
+<div class = 'container'>
+ <div th:replace="fragments/common :: header">-- thymeleaf header will be inserted here. --</div>
+ 
 	<table class="table table-striped table-bordered table-hover">
 		<thead class="thead-dark">
 			<tr>
@@ -10,11 +15,10 @@
 				<th>Email</th>
 				<th>Name</th>
 				<th>FromSocial</th>
-				
-				<th>Actions</th>				
-				
+				<th>Actions</th>					
 			</tr>
 		</thead>
+		
 		<tbody>
 			<tr th:each="data : ${userlist}">
 				<td th:text="${data.id}">ID</td>
@@ -24,6 +28,7 @@
 				<td>		
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a th:href="@{'/update/' + ${data.id}}">권한</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a th:href="@{'/delete/' + ${data.id}}">Delete</a>
 				</td>
 			</tr>
@@ -31,7 +36,9 @@
 	</table>
 	
 	<div style="text-align: center;">
-      <button onclick="location.href='/'">home</button>
+      <div><a href="/" role="button" class="btn btn-primary float-left">Home</a></div>
     </div>
+    <div th:replace="fragments/common :: footer">-- thymeleaf footer will be inserted here. --</div>
+</div>
 </body>
 </html>

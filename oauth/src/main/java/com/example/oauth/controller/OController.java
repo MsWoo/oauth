@@ -52,7 +52,7 @@ public class OController {
     public String signUp(User user) {
 
     	user.addUserRole(UserRole.USER);
-		user.addUserRole(UserRole.ADMIN);
+//		user.addUserRole(UserRole.ADMIN);
         user.setEnabled(true);
         user.setFromSocial(false);
         service.joinUser(user);
@@ -100,8 +100,8 @@ public class OController {
     	User user = userRepository.findUserById(id);
     	
 //    	System.out.println(id);
-    	user.addUserRole(UserRole.ADMIN);
-    	
+//    	user.addUserRole(UserRole.ADMIN);
+    	service.giveAdm(id);
 //    	userRepository.saveUser(user);
 //    	new MyUserDetails(user);
 		return "redirect:/list";	
